@@ -14,11 +14,13 @@
 
 #include <mujoco/mjplugin.h>
 #include "touch_grid.h"
+#include "touch_stress.h"
 
 namespace mujoco::plugin::sensor {
 
 mjPLUGIN_LIB_INIT(sensor) {
   TouchGrid::RegisterPlugin();
+  TouchStress::RegisterPlugin();
 }
 
 }  // namespace mujoco::plugin::sensor
