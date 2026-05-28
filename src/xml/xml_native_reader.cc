@@ -602,6 +602,12 @@ const mjMap geom_map[mjNGEOMTYPES] = {
   {"sdf",           mjGEOM_SDF}
 };
 
+// rendering-only geom types
+const int geom_map_ext_sz = 1;
+const mjMap geom_map_ext[geom_map_ext_sz] = {
+  {"pointcloud",    mjGEOM_POINTCLOUD}
+};
+
 
 // projection type
 const int projection_sz = 2;
@@ -1891,6 +1897,8 @@ void mjXReader::OneGeom(XMLElement* elem, mjsGeom* geom) {
   }
   if (MapValue(elem, "type", &n, geom_map, mjNGEOMTYPES)) {
     geom->type = (mjtGeom)n;
+  } else if (MapValue(elem, "type", &n, geom_map_ext, geom_map_ext_sz)) {
+    geom->type = (mjtGeom)n;
   }
   ReadAttr(elem, "size", 3, geom->size, text, false, false);
   ReadAttrInt(elem, "contype", &geom->contype);
@@ -1964,6 +1972,8 @@ void mjXReader::OneSite(XMLElement* elem, mjsSite* site) {
     }
   }
   if (MapValue(elem, "type", &n, geom_map, mjNGEOMTYPES)) {
+    site->type = (mjtGeom)n;
+  } else if (MapValue(elem, "type", &n, geom_map_ext, geom_map_ext_sz)) {
     site->type = (mjtGeom)n;
   }
   ReadAttr(elem, "size", 3, site->size, text, false, false);
@@ -2698,6 +2708,8 @@ void mjXReader::OneComposite(XMLElement* elem, mjsBody* body, mjsFrame* frame, c
     string material;
     mjsGeom& dgeom = *comp.def[0].spec.geom;
     if (MapValue(egeom, "type", &n, geom_map, mjNGEOMTYPES)) {
+      dgeom.type = (mjtGeom)n;
+    } else if (MapValue(egeom, "type", &n, geom_map_ext, geom_map_ext_sz)) {
       dgeom.type = (mjtGeom)n;
     }
     ReadAttr(egeom, "size", 3, dgeom.size, text, false, false);

@@ -129,6 +129,7 @@ struct mjrContext_ {                // custom OpenGL context
   unsigned int baseMesh;            // all meshes from model
   unsigned int baseHField;          // all height fields from model
   unsigned int baseBuiltin;         // all builtin geoms, with quality from model
+  unsigned int basePointCloud;      // all point clouds from model
   unsigned int baseFontNormal;      // normal font
   unsigned int baseFontShadow;      // shadow font
   unsigned int baseFontBig;         // big font
@@ -138,6 +139,7 @@ struct mjrContext_ {                // custom OpenGL context
   int rangeMesh;                    // all meshes from model
   int rangeHField;                  // all hfields from model
   int rangeBuiltin;                 // all builtin geoms, with quality from model
+  int rangePointCloud;              // all point clouds from model
   int rangeFont;                    // all characters in font
 
   // skin VBOs

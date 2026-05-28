@@ -207,6 +207,43 @@ static void makeMesh(const mjModel* m, mjrContext* con) {
 
 
 
+// model point clouds (using mesh vertex data, rendered as points)
+static void makePointCloud(const mjModel* m, mjrContext* con) {
+  // allocate list
+  listAllocate(&con->basePointCloud, &con->rangePointCloud, m->nmesh);
+
+  // process meshes as point clouds
+  for (int i=0; i < m->nmesh; i++) {
+    mjr_uploadPointCloud(m, con, i);
+  }
+}
+
+
+// (re) upload point cloud to GPU
+void mjr_uploadPointCloud(const mjModel* m, const mjrContext* con, int meshid) {
+  // check index
+  if (meshid < 0 || meshid >= m->nmesh) {
+    mju_error("Invalid mesh index %d", meshid);
+  }
+
+  // delete old list
+  glDeleteLists(con->basePointCloud + meshid, 1);
+
+  // get vertex address for this mesh
+  int vertadr = m->mesh_vertadr[meshid];
+  int numvert = m->mesh_vertnum[meshid];
+
+  // render mesh vertices as GL_POINTS
+  glNewList(con->basePointCloud + meshid, GL_COMPILE);
+  glBegin(GL_POINTS);
+  for (int v=0; v < numvert; v++) {
+    glVertex3fv(m->mesh_vert + 3*(vertadr + v));
+  }
+  glEnd();
+  glEndList();
+}
+
+
 // (re) upload mesh to GPU
 void mjr_uploadMesh(const mjModel* m, const mjrContext* con, int meshid) {
   int vertadr, numvert, normaladr, numface, texcoordadr;
@@ -295,6 +332,9 @@ void mjr_uploadMesh(const mjModel* m, const mjrContext* con, int meshid) {
   }
   glEnd();
   glEndList();
+
+  // (re)upload point cloud display list
+  mjr_uploadPointCloud(m, con, meshid);
 
   // render convex hull if present
   if (m->mesh_graphadr[meshid] >= 0) {
@@ -1643,6 +1683,7 @@ void mjr_makeContext_offSize(const mjModel* m, mjrContext* con, int fontscale,
   makeTexture(m, con);
   makePlane(m, con);
   makeMesh(m, con);
+  makePointCloud(m, con);
   makeHField(m, con);
   makeBuiltin(m, con);
   makeSkin(m, con);
@@ -1836,6 +1877,7 @@ void mjr_freeContext(mjrContext* con) {
   }
   if (con->rangePlane) glDeleteLists(con->basePlane, con->rangePlane);
   if (con->rangeMesh) glDeleteLists(con->baseMesh, con->rangeMesh);
+  if (con->rangePointCloud) glDeleteLists(con->basePointCloud, con->rangePointCloud);
   if (con->rangeHField) glDeleteLists(con->baseHField, con->rangeHField);
   if (con->rangeBuiltin) glDeleteLists(con->baseBuiltin, con->rangeBuiltin);
   if (con->rangeFont) {

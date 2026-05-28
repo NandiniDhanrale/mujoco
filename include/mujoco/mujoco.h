@@ -873,6 +873,9 @@ MJAPI void mjr_uploadTexture(const mjModel* m, const mjrContext* con, int texid)
 // Upload mesh to GPU, overwriting previous upload if any.
 MJAPI void mjr_uploadMesh(const mjModel* m, const mjrContext* con, int meshid);
 
+// Upload point cloud to GPU, overwriting previous upload if any.
+MJAPI void mjr_uploadPointCloud(const mjModel* m, const mjrContext* con, int meshid);
+
 // Upload height field to GPU, overwriting previous upload if any.
 MJAPI void mjr_uploadHField(const mjModel* m, const mjrContext* con, int hfieldid);
 

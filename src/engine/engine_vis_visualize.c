@@ -974,8 +974,13 @@ static void addGeomGeoms(const mjModel* m, mjData* d, const mjvOption* vopt,
       makeLabel(m, mjOBJ_GEOM, i, thisgeom->label);
     }
 
+    // point cloud: dataid is mesh id
+    if (m->geom_type[i] == mjGEOM_POINTCLOUD) {
+      thisgeom->texcoord = 0;
+    }
+
     // mesh: 2*i is original, 2*i+1 is convex hull
-    if (m->geom_type[i] == mjGEOM_MESH || m->geom_type[i] == mjGEOM_SDF) {
+    else if (m->geom_type[i] == mjGEOM_MESH || m->geom_type[i] == mjGEOM_SDF) {
       thisgeom->dataid *= 2;
       if (m->mesh_graphadr[m->geom_dataid[i]] >= 0 && vopt->flags[mjVIS_CONVEXHULL] &&
           (m->geom_contype[i] || m->geom_conaffinity[i])) {

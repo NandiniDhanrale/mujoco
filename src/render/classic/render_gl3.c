@@ -458,6 +458,24 @@ static void renderGeom(const mjvGeom* geom, int mode, const float* headpos,
     }
     break;
 
+  case mjGEOM_POINTCLOUD:                     // point cloud
+    // point clouds do not cast shadows
+    if (mode == mjrRND_SHADOWCAST) {
+      break;
+    }
+    if (geom->dataid >= 0) {
+      // disable lighting (no normals for points)
+      GLboolean lighting_enabled = glIsEnabled(GL_LIGHTING);
+      glDisable(GL_LIGHTING);
+      glPointSize(size[0] > 0 ? size[0] : 3.0f);
+      glCallList(con->basePointCloud + geom->dataid);
+      glPointSize(1.0f);
+      if (lighting_enabled) {
+        glEnable(GL_LIGHTING);
+      }
+    }
+    break;
+
   case mjGEOM_FLEX:                           // flex
   {
     // no texture for vertices and edges

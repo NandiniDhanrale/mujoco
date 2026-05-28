@@ -120,6 +120,7 @@ typedef enum mjtGeom_ {           // type of geometric shape
   mjGEOM_SKIN,                    // skin
   mjGEOM_LABEL,                   // text label
   mjGEOM_TRIANGLE,                // triangle
+  mjGEOM_POINTCLOUD   = 200,      // point cloud (rendering only)
 
   mjGEOM_NONE         = 1001      // missing geom type
 } mjtGeom;
