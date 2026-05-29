@@ -304,6 +304,8 @@ void TouchStress::Compute(const mjModel* m, mjData* d, int instance) {
     geom_sdf.type = mjSDFTYPE_SINGLE;
     geom_sdf.plugin = &sdf_ptr[0];
     geom_sdf.geomtype = &geomtype[0];
+    geom_sdf.relpos = NULL;
+    geom_sdf.relmat = NULL;
 
     // For each taxel.
     int node = 0;
