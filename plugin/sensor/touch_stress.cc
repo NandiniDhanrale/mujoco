@@ -28,6 +28,7 @@
 #include <mujoco/mjtnum.h>
 #include <mujoco/mjvisualize.h>
 #include <mujoco/mujoco.h>
+#include "engine/engine_collision_sdf.h"
 
 namespace mujoco::plugin::sensor {
 
