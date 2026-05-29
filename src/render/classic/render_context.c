@@ -334,7 +334,9 @@ void mjr_uploadMesh(const mjModel* m, const mjrContext* con, int meshid) {
   glEndList();
 
   // (re)upload point cloud display list
-  mjr_uploadPointCloud(m, con, meshid);
+  if (con->basePointCloud) {
+    mjr_uploadPointCloud(m, con, meshid);
+  }
 
   // render convex hull if present
   if (m->mesh_graphadr[meshid] >= 0) {
