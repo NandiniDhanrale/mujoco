@@ -459,6 +459,7 @@ static void renderGeom(const mjvGeom* geom, int mode, const float* headpos,
     break;
 
   case mjGEOM_POINTCLOUD:                     // point cloud
+  {
     // point clouds do not cast shadows
     if (mode == mjrRND_SHADOWCAST) {
       break;
@@ -475,6 +476,7 @@ static void renderGeom(const mjvGeom* geom, int mode, const float* headpos,
       }
     }
     break;
+  }
 
   case mjGEOM_FLEX:                           // flex
   {
